@@ -1,6 +1,6 @@
 <template>
-  <div style="margin:10px;width:400px">
-    <Composter />
+  <div class="columns is-multiline">
+    <Composter v-for="i in 150" v-bind:key="i" class="column is-half-tablet is-full-mobile is-one-third-desktop is-one-quarter-widescreen " />
   </div>
 </template>
 
