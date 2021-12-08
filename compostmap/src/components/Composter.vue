@@ -1,89 +1,90 @@
 <template>
-    <div class="card">
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img
-            src="https://bulma.io/images/placeholders/1280x960.png"
-            alt="Placeholder image"
-          />
-        </figure>
-      </div>
-      <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img v-bind:src="image" alt="Image compost" />
-            </figure>
-          </div>
-          <div class="media-content">
-            <p class="title is-4">Compost {{ id }}</p>
-            <p class="subtitle is-6">{{ focusedDay }}</p>
-          </div>
+  <div class="card">
+    <div class="card-image">
+      <figure class="image is-4by3">
+        <img
+          src="https://bulma.io/images/placeholders/1280x960.png"
+          alt="Placeholder image"
+        />
+      </figure>
+    </div>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img :src="image" v-on:mouseover="removeFirstOpeningSchedule" />
+          </figure>
         </div>
+        <div class="media-content">
+          <p class="title is-4">Composter {{ composterId }}</p>
+          <p class="subtitle is-6">{{ focusedDay }}</p>
+        </div>
+      </div>
 
-        <div class="content">
-          Horaires d'ouvertures :
+      <div class="content">
+        <p>
+          Horaires d'ouvertures:
           <ul>
             <li
-              v-for="horaire in openSchedules"
-              v-bind:key="horaire.day"
-              v-on:mouseover="getDay(horaire.day)"
+              v-for="openingSchedule in openingSchedules"
+              v-bind:key="openingSchedule.day"
+              v-on:mouseout="updateFocusedDay(openingSchedule)"
             >
-              Le {{ horaire.day }} : De {{ horaire.opening_hour }}h à
-              {{ horaire.closing_hour }}h
+              {{ openingSchedule.day }} : De {{ openingSchedule.opening_hour }}h à
+              {{ openingSchedule.closing_hour }}h
             </li>
           </ul>
 
-          <button class="button is-primary" v-on:click="createNewSchedule">
-            Ajouter un jour
+          <button v-on:click="addOpeningSchedule" class="button is-primary">
+            Ajouter horaire d'ouverture
           </button>
-
-          <br />
-
-          <a v-bind:href="url + adresse">Adresse: {{ adresse }}</a>
-          <br />
-          <div v-if="isOpen">Ouvert</div>
-          <div v-else>Fermé</div>
-        </div>
+        </p>
+        <a :href="url">Adresse: {{ adresse }}</a>
+        <p v-if="isOpen">Ouvert</p>
+        <p v-else>Fermé</p>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: "Composter",
+  props: {
+      composterId: Number
+  },
   data() {
     return {
-      id: 42,
-      adresse: "28 rue des plantes en pots",
+      adresse: "28 rue des plantes en pots, 4400 Toulouse",
       image: "./assets/img/compost1.png",
-      url: "https://www.google.com/maps/search/",
-      isOpen: false,
-      openSchedules: [
-        { day: "Lundi", opening_hour: 9, closing_hour: 12 },
-        { day: "Mardi", opening_hour: 10, closing_hour: 14 },
-        { day: "Mercredi", opening_hour: 10, closing_hour: 14 },
-        { day: "Jeudi", opening_hour: 10, closing_hour: 14 },
-        { day: "Vendredi", opening_hour: 9, closing_hour: 12 },
-      ],
+      isOpen: true,
+      url: "https://vuejs.org/",
       focusedDay: "",
+      openingSchedules: [
+        { day: "Lundi", opening_hour: 9, closing_hour: 12 },
+        { day: "Mardi", opening_hour: 11, closing_hour: 14 },
+        { day: "Mercredi", opening_hour: 11, closing_hour: 14 },
+        { day: "Jeudi", opening_hour: 11, closing_hour: 14 },
+        { day: "Vendredi", opening_hour: 11, closing_hour: 14 },
+        { day: "Samedi", opening_hour: 14, closing_hour: 20 },
+      ],
     };
   },
   methods: {
-    createNewSchedule() {
-      this.openSchedules.push({
-        day: "Samedi",
+    addOpeningSchedule() {
+      this.openingSchedules.push({
+        day: "Dimanche",
         opening_hour: 9,
         closing_hour: 12,
       });
     },
 
-    deleteLastSchedule() {
-      this.openSchedules.pop();
+    removeFirstOpeningSchedule() {
+      this.openingSchedules.pop();
     },
 
-    getDay(day) {
-      this.focusedDay = day;
+    updateFocusedDay(schedule) {
+      this.focusedDay = schedule.day;
     },
   },
 };
