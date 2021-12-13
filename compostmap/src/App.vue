@@ -1,4 +1,5 @@
 <template>
+  <MenuView />
   <div>
     <p class="columns">
       <button
@@ -29,10 +30,13 @@
 <script>
 import Composter from "./components/Composter.vue";
 
+import MenuView from "./components/MenuView.vue";
+
 export default {
   name: "App",
   components: {
     Composter,
+    MenuView,
   },
   data() {
     return {
