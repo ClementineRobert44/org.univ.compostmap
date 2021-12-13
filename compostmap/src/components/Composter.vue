@@ -1,6 +1,11 @@
 <template>
-  <div class="card">
-    <div class="card-image">
+  <div class="card" v-bind:class="{
+	'composter-opened': isOpen,
+	'composter-closed': !isOpen
+}">
+    <div class="card-image" v-bind:class="{
+	'pointer': numberSchedules > 5,
+}">
       <figure class="image is-4by3">
         <img
           src="https://bulma.io/images/placeholders/1280x960.png"
@@ -39,9 +44,16 @@
             Ajouter horaire d'ouverture
           </button>
         </p>
-        <a :href="url">Adresse: {{ adresse }}</a>
-        <p v-if="isOpen">Ouvert</p>
-        <p v-else>Fermé</p>
+        <div v-bind:class="{
+	'bold': isOpen,
+  'red': ville === '44000 Nantes',
+  'yellow': ville === 'Toulouse'
+}">
+          <a :href="url">Adresse: {{ adresse }}, {{ ville }}</a>
+          <p v-if="isOpen">Ouvert</p>
+          <p v-else>Fermé</p>
+        </div>
+       
       </div>
     </div>
   </div>
@@ -53,11 +65,25 @@ export default {
   props: {
       composterId: Number
   },
+  computed: {
+    isOpen(){
+      let isOpen;
+      if (this.openingSchedules.length === 0) {
+        isOpen = false;
+      } else {
+        isOpen = true;
+      }
+      return isOpen;
+    },
+    numberSchedules(){
+      return this.openingSchedules.length;
+    }
+  },
   data() {
     return {
-      adresse: "28 rue des plantes en pots, 4400 Toulouse",
+      adresse: "28 rue des plantes en pots",
+      ville: "44000 Nantes",
       image: "./assets/img/compost1.png",
-      isOpen: true,
       url: "https://vuejs.org/",
       focusedDay: "",
       openingSchedules: [
@@ -89,3 +115,31 @@ export default {
   },
 };
 </script>
+
+<style>
+ .composter-opened {
+	background-color: #A6D785;
+	border: 2px solid #3B5E2B;
+ }
+
+ .composter-closed {
+	background-color: #F5F5F5;
+	border: 2px dashed #C0C0C0;
+ }
+
+ .pointer {
+   cursor: pointer;
+ }
+
+ .bold{
+   font-weight: bold;
+ }
+
+ .red{
+   background-color: #F56883;
+ }
+
+ .yellow {
+   background-color: yellow;
+ }
+</style>
