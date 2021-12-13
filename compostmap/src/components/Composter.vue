@@ -46,10 +46,10 @@
         </p>
         <div v-bind:class="{
 	'bold': isOpen,
-  'red': ville === '44000 Nantes',
-  'yellow': ville === 'Toulouse'
+  'red': adresse.indexOf('Nantes') > -1,
+  'yellow': adresse.indexOf('Toulouse') > -1
 }">
-          <a :href="url">Adresse: {{ adresse }}, {{ ville }}</a>
+          <a :href="url">Adresse: {{ adresse }}</a>
           <p v-if="isOpen">Ouvert</p>
           <p v-else>Fermé</p>
         </div>
@@ -81,8 +81,7 @@ export default {
   },
   data() {
     return {
-      adresse: "28 rue des plantes en pots",
-      ville: "44000 Nantes",
+      adresse: "28 rue des plantes en pots, 44000 Nantes",
       image: "./assets/img/compost1.png",
       url: "https://vuejs.org/",
       focusedDay: "",
