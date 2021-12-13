@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar box" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
+    <div class="navbar-brand" :class="{ 'is-active': mobileMenuActive }">
       <a class="navbar-item animated" href="/">
         <img
           class="navbar-brand-img"
@@ -25,9 +25,9 @@
 
     <div class="navbar-menu" :class="{ 'is-active': mobileMenuActive }">
       <div class="navbar-start">
-        <a class="navbar-item" href="/">
+        <router-link class="navbar-item" to="/">
           Accueil
-        </a>
+        </router-link>
 
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
@@ -35,16 +35,16 @@
           </a>
 
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="/composters">
+             <router-link class="navbar-item" :to="{ name: 'CompostersList' }">
               Liste
-            </a>
+            </router-link>
             <a class="navbar-item">
               Carte
             </a>
             <hr class="navbar-divider" />
-            <a class="navbar-item" href="/about">
+            <router-link class="navbar-item"  :to="{ name: 'About' }">
               A propos
-            </a>
+            </router-link>
             <a
               class="navbar-item"
               href="https://github.com/alexsedlex/org.univ.compostmap"
@@ -124,6 +124,12 @@ export default {
   background: white;
   border-radius: 5px;
 }
+
+.router-link-active {
+   font-weight: bold;
+   text-decoration: underline;
+   text-decoration-color: #399953;
+ }
 
 @keyframes rotate {
   100% {
